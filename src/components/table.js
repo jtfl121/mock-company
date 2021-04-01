@@ -43,15 +43,15 @@ function TableComponent() {
         </thead>
         <tbody>
           { data.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              onClick={() => handleSetUsers(row.users)}
+              onKeyDown={() => setShow(true)}
+            >
               <td>
                 {row.id}
               </td>
-              <td
-                onClick={() => handleSetUsers(row.users)}
-                onKeyDown={() => setShow(true)}
-
-              >
+              <td>
                 {row.name}
               </td>
               <td>{row.phoneNumber}</td>

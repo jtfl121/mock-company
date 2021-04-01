@@ -2,31 +2,36 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import UserCard from './userCard';
 
-function NavBarComponent(props) {
+function UserModal(props) {
   const { show, handleClose, users } = props;
-  console.log(users);
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, youre reading this text in a modal!</Modal.Body>
+      <Modal.Body style={{ maxHeight: '70vh', overflow: 'scroll' }}>
+        { users.map((user) => (
+          <>
+            {console.log(user)}
+            <UserCard user={user} />
+          </>
+        ))}
+
+      </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
         <Button variant="primary" onClick={handleClose}>
-          Save Changes
+          Close
         </Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default NavBarComponent;
+export default UserModal;
 
-NavBarComponent.propTypes = {
+UserModal.propTypes = {
   show: PropTypes.bool.isRequired,
   users: PropTypes.arrayOf(PropTypes.objects).isRequired,
   handleClose: PropTypes.func.isRequired,
