@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
+import Modal from './modal';
 
 function TableComponent() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
+  const [show, setShow] = useState(false);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/companies`, {
@@ -20,27 +24,43 @@ function TableComponent() {
     });
   }, []);
 
-  return (
-    <Table striped bordered hover variant="dark">
-      {console.log(data)}
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Phone Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.length ? data.map((row) => (
-          <tr key={row.id}>
-            <td>{row.id}</td>
-            <td>{row.name}</td>
-            <td>{row.phoneNumber}</td>
-          </tr>
-        )) : null}
+  const handleSetUsers = (rowUsers) => {
+    setUsers(rowUsers);
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
 
-      </tbody>
-    </Table>
+  return (
+    <>
+      <Modal show={show} handleClose={handleClose} users={users} />
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          { data.map((row) => (
+            <tr key={row.id}>
+              <td>
+                {row.id}
+              </td>
+              <td
+                onClick={() => handleSetUsers(row.users)}
+                onKeyDown={() => setShow(true)}
+
+              >
+                {row.name}
+              </td>
+              <td>{row.phoneNumber}</td>
+            </tr>
+          ))}
+
+        </tbody>
+      </Table>
+    </>
   );
 }
 
