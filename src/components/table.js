@@ -47,6 +47,7 @@ function TableComponent() {
               key={row.id}
               onClick={() => handleSetUsers(row.users)}
               onKeyDown={() => setShow(true)}
+              style={{ cursor: 'pointer' }}
             >
               <td>
                 {row.id}
